@@ -8,11 +8,13 @@ import { ReadVerificationAccountRepositoryImpl } from './adapters/out/repositori
 import { UserModule } from '../user/user.module';
 import { VerificationAccountImplService } from './application/services/create/verification-account-impl.service';
 import { DeleteVerificationAccountImpl } from './adapters/out/repositories/delete/delete-verificatin-account-impl.provider';
+import { RabbitModule } from 'src/root/application/rabbit/rabbit.module';
 
 @Module({
   imports: [
     DatabaseModule,
-    UserModule
+    UserModule,
+    RabbitModule
   ],
   controllers: [
     VerificationAccountCodeController 

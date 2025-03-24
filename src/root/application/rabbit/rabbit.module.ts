@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ClientRabbitService } from './service/client-rabbit.provider';
+import { TaskClientRabbitService } from './service/task/task-client-rabbit.provider';
 
 @Module({
   imports: [
@@ -14,13 +15,24 @@ import { ClientRabbitService } from './service/client-rabbit.provider';
           queueOptions: { durable: true },
         },
       },
+      {
+        name: 'TASK_QUEUE',
+        transport: Transport.RMQ,
+        options: {
+          urls: [process.env.RABBITMQ_URL || 'amqp://localhost:5672'],
+          queue: 'user_task',
+          queueOptions: { durable: true },
+        },
+      },
     ]),
   ],
   providers:[
-    ClientRabbitService
+    ClientRabbitService,
+    TaskClientRabbitService
   ],
   exports:[
-    ClientRabbitService
+    ClientRabbitService,
+    TaskClientRabbitService
   ]
 })
 export class RabbitModule { }
