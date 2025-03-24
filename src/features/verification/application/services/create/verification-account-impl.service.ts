@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Inject, Injectable } from '@nestjs/common';
 import { ReadVerificationAccountImplService } from '../read/read-verification-account-impl.service';
 import { DeleteVerificationAccountImpl } from '../../../adapters/out/repositories/delete/delete-verificatin-account-impl.provider';
 import { VerificationAccountService } from 'src/features/verification/domain/services/verification-account-service';
@@ -20,7 +20,7 @@ export class VerificationAccountImplService implements VerificationAccountServic
   async verificationAccount(code: string): Promise<{message: string}> {
     const isVerified = await this.readVerificationService.findOneByCode(code);
     const user = await this.userService.verificationEmail(isVerified.identifier);
-    this.client.rabbitClient.emit("create_user_event",{referenceExternalId: isVerified.identifier})
+    this.client.rabbitClient.emit("user_created", {referenceExternalId: isVerified.identifier})
     this.verificationRepo.delete(isVerified.identifier);
     return{
       message: `Email verified: ${user.email}`

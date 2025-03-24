@@ -20,7 +20,7 @@ import { TaskClientRabbitService } from './service/task/task-client-rabbit.provi
         transport: Transport.RMQ,
         options: {
           urls: [process.env.RABBITMQ_URL || 'amqp://localhost:5672'],
-          queue: 'user_task',
+          queue: 'tasks_queue',
           queueOptions: { durable: true },
         },
       },
