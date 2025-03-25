@@ -11,7 +11,7 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 
 # Instala as dependências
-RUN pnpm install --frozen-lockfile && pnpm run build && pnpm prisma generate
+RUN pnpm install --frozen-lockfile && pnpm prisma generate
 
 # Copia o restante do código-fonte
 COPY . .
