@@ -11,7 +11,13 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 
 # Instala as dependências
-RUN pnpm install --frozen-lockfile && pnpm prisma generate
+RUN pnpm install --frozen-lockfile
+
+# Copia o diretório prisma (ou o arquivo schema.prisma)
+COPY prisma ./prisma
+
+# Gera o cliente Prisma
+RUN pnpm prisma generate
 
 # Copia o restante do código-fonte
 COPY . .
@@ -33,7 +39,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY . .
 
 # Expõe a porta da aplicação
-EXPOSE 4002
+EXPOSE 4000
 
 # Comando para iniciar a aplicação
 CMD ["pnpm", "start"]
