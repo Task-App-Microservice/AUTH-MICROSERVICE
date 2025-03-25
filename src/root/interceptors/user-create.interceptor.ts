@@ -11,7 +11,7 @@ export class UserCreatedInterceptor implements NestInterceptor {
   ) { }
   private readonly logger = new Logger(UserCreatedInterceptor.name, { timestamp: true });
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-   
+
     return next.handle().pipe(
       tap(async (user: User) => {
         if (user) {
@@ -25,17 +25,18 @@ export class UserCreatedInterceptor implements NestInterceptor {
       map((data) => ({
         statusCode: context.switchToHttp().getResponse().statusCode,
         success: true,
-        message: "Usuario criado com sucesso!",
+        detail: "Usuario criado com sucesso!",
         data: {
           newUser: data
         },
         metadata: {
           type: "object",
           version: "v-1"
-      },
+        },
+        error: null,
         timestamp: new Date().toISOString(),
       })),
     );
   }
-  
+
 }

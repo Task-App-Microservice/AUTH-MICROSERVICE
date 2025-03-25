@@ -13,8 +13,9 @@ export class GlobalResponseInterceptor<T> implements NestInterceptor<T> {
       map((data) => ({
         statusCode: context.switchToHttp().getResponse().statusCode,
         success: true,
-        message: "Operação bem sucessidda",
-        results: data || null,
+        detail: "Operação bem sucessidda",
+        data: data || null,
+        error: null,
         metadata: {
           type: "object"
       },

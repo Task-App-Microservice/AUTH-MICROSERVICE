@@ -6,13 +6,14 @@ import { UpdateUserImplService } from './application/services/update/update-user
 import { UpdateUserRepositoryImpl } from './adapters/out/repositories/update/update-user-repository-impl.provider';
 import { CreateUserServiceImpl } from './application/services/create/create-user-service-impl.service';
 import { ReadUserImplService } from './application/services/read/read-user-impl.service';
+import { ReadUserController } from './adapters/in/controllers/read/read-user.controller';
 
 @Module({
   imports: [
     DatabaseModule,
   ],
   controllers: [
-
+    ReadUserController
   ],
   providers: [
     CreateUserRepositoryImpl,

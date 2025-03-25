@@ -1,7 +1,8 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { compare } from "bcrypt";
 import { LoginDto } from "src/features/auth/adapters/out/dto/login.dto";
 import { ReadUserImplService } from "src/features/user/application/services/read/read-user-impl.service";
+import { UnauthorizedExceptionGlobal } from "src/root/exceptions/unauthorized.exeception";
 
 
 @Injectable()
@@ -9,25 +10,48 @@ export class AuthLoginService {
   constructor(private readonly readUserService: ReadUserImplService) { }
 
   async login(body: LoginDto) {
-    const userExisting = await this.readUserService.findOneByEmail(body.email);
+
+    const user = await this.validator(body.email, body.password);
+
+    return {
+      clientId: user.uuid,
+      userId: user.id
+    };
+
+  }
+
+  async validator(email: string,password: string){
+    const userExisting = await this.readUserService.findOneByEmail(email);
 
     if (!userExisting) {
-      throw new UnauthorizedException("Credencials invalidos, verififique a senha ou email");
+      throw new UnauthorizedExceptionGlobal("Credenciais inválidas. Verifique seu e-mail e senha.", [
+        {
+          field: "email",
+          message: "O e-mail fornecido não foi encontrado."
+        }
+      ]);
     }
 
-    const verifyPassword = await compare(body.password, userExisting.password);
+    const verifyPassword = await compare(password, userExisting.password);
 
     if (!verifyPassword) {
-      throw new UnauthorizedException("Credencials invalidos, verififique a senha ou email");
+      throw new UnauthorizedExceptionGlobal("Credencials invalidos, verififique a senha ou email", [
+        {
+          field: "password",
+          message: "A senha está incorreta"
+        }
+      ]);
     }
 
     if (!userExisting.emailVerified) {
-      throw new UnauthorizedException("Conta nao verificada");
+      throw new UnauthorizedExceptionGlobal("Esta conta não esta verificada, verifique porfavor",[
+        {
+          field: "email",
+          message: "O e-mail fornecido não foi verificado."
+        }
+      ]);
     }
 
-
-    const { password, ...userWithoutPassword } = userExisting;
-    return userWithoutPassword;
-
+    return userExisting
   }
 }

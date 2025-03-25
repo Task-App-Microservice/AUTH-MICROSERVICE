@@ -3,6 +3,7 @@ import { CreateUserService, UserDto } from '../../../domain/services/create-user
 import { CreateUserRepositoryImpl } from '../../../adapters/out/repositories/create/create-user-repository-impl.provider';
 import { ReadUserRepositoryImpl } from '../../../adapters/out/repositories/read/read-user-repository.provider';
 import { User } from '../../../domain/entities/user.entity';
+import { ConflictExceptionGlobal } from 'src/root/exceptions/conflict.exception';
 @Injectable()
 export class CreateUserServiceImpl implements CreateUserService {
 
@@ -15,7 +16,14 @@ export class CreateUserServiceImpl implements CreateUserService {
 
     const userExisting = await this.readUserRepo.findOneByEmail(dto.email);
 
-    if (userExisting) throw new ConflictException("Ja existe um usuario com este email");
+    if (userExisting) throw new ConflictExceptionGlobal("Já existe um usuário registrado com este e-mail.",
+      [
+        {
+            field: "email",
+            message: "O e-mail informado já está em uso."
+        }
+    ]
+    );
 
     
     const user = new User({...dto});
