@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { hash } from 'bcrypt';
+import { hash } from 'bcryptjs';
 import { User } from 'src/features/user/domain/entities/user.entity';
 import { CreateUserRepository } from 'src/features/user/domain/repositories/create-user-repository';
 import { DatabaseService } from 'src/root/application/database/services/database.service';
