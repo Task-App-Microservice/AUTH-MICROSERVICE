@@ -1,22 +1,28 @@
 import {
-    CanActivate,
-    ExecutionContext,
-    Injectable,
-    UnauthorizedException,
-  } from '@nestjs/common';
-  
-  @Injectable()
-  export class ApiKeyGuard implements CanActivate {
-    private readonly validApiKey = '3333'; 
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+} from '@nestjs/common';
+import { Request } from 'express';
+import { UnauthorizedExceptionGlobal } from 'src/root/exceptions/unauthorized.exeception';
 
-    canActivate(context: ExecutionContext): boolean {
-      const request = context.switchToHttp().getRequest();
-      const apiKey = request.headers['X-API-KEY'] || request.query['api_key'];
-  
-      if (!apiKey || apiKey !== this.validApiKey) {
-        throw new UnauthorizedException('Chave de API inválida ou ausente');
-      }
-  
-      return true; 
+@Injectable()
+export class ApiKeyGuard implements CanActivate {
+  private staticKey = '3333'; // Altere para sua chave ou use variável de ambiente
+
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const request = context.switchToHttp().getRequest<Request>();
+
+    const apiKey = this.extractApiKey(request);
+
+    if (!apiKey || apiKey !== this.staticKey) {
+      throw new UnauthorizedExceptionGlobal('API Key inválida ou ausente');
     }
+
+    return true;
   }
+
+  private extractApiKey(request: Request): string | undefined {
+    return request.headers['x-api-key'] as string;
+  }
+}
