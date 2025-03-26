@@ -14,8 +14,10 @@ export class AuthLoginService {
     const user = await this.validator(body.email, body.password);
 
     return {
-      clientId: user.uuid,
-      userId: user.id
+      dataSession: {
+        userUniversalId: user.uuid,
+        clientId: user.id
+    },
     };
 
   }
