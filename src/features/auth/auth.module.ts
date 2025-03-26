@@ -4,10 +4,12 @@ import { AuthRegisterController } from './adapters/in/auth-regiser/auth-register
 import { AuthRegisterService } from './application/services/auth-register/auth-register.service';
 import { AuthLoginService } from './application/services/auth-login/auth-login.service';
 import { AuthLoginController } from './adapters/in/auth-login/auth-login.controller';
+import { ApiConfigModule } from 'src/root/application/api/api-config.module';
 
 @Module({
   imports: [
-    UserModule
+    UserModule,
+    ApiConfigModule 
   ],
   controllers: [
     AuthRegisterController,
