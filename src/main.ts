@@ -5,7 +5,10 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule,{
     cors: {
-      origin: "*"
+      origin: [
+        "https://tasl-app.onrender.com",
+        "http://localhost:3000"
+      ]
     }
   });
   app.useGlobalPipes(
