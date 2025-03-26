@@ -4,17 +4,16 @@ import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
-  // ✅ Configuração do CORS
   app.enableCors({
     origin: [
       "https://tasl-app.onrender.com",
       "http://localhost:3000",
-      "https://symmetrical-enigma-767vv6r5x77hp79x-3000.app.github.dev"
+      "https://symmetrical-enigma-767vv6r5x77hp79x-3000.app.github.dev",
+      "https://tastk-gateway.onrender.com"
     ],
     methods: "GET,POST,PUT,DELETE,OPTIONS",
     allowedHeaders: "Content-Type,Authorization",
-    credentials: true, // Se necessário para cookies/token
+    credentials: true, 
   });
 
   app.useGlobalPipes(
