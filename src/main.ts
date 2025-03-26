@@ -7,7 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule,{
     cors: true
   });
-  app.useGlobalGuards(new ApiKeyGuard());
+ // app.useGlobalGuards(new ApiKeyGuard());
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
