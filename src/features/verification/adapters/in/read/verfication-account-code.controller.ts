@@ -6,7 +6,7 @@ import {
 import { VerificationCodeDto } from '../../out/dto/verification-code.dto';
 import { VerificationAccountImplService } from '../../../application/services/create/verification-account-impl.service';
 
-@Controller('verification/account')
+@Controller('auth/verification/account')
 export class VerificationAccountCodeController {
   constructor(
     private readonly verificationAccountService:VerificationAccountImplService
