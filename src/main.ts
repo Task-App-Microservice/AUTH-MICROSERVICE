@@ -10,7 +10,8 @@ async function bootstrap() {
         "https://tasl-app.onrender.com",
         "http://localhost:3000",
         "https://symmetrical-enigma-767vv6r5x77hp79x-3000.app.github.dev",
-        "https://tastk-gateway.onrender.com"
+        "https://tastk-gateway.onrender.com",
+        "https://task-auth-ddij.onrender.com" // Adicione aqui o domínio do servidor
       ];
   
       if (!origin || allowedOrigins.includes(origin)) {
