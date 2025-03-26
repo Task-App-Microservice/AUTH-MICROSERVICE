@@ -7,7 +7,8 @@ async function bootstrap() {
     cors: {
       origin: [
         "https://tasl-app.onrender.com",
-        "http://localhost:3000"
+        "http://localhost:3000",
+        "https://symmetrical-enigma-767vv6r5x77hp79x-3000.app.github.dev"
       ]
     }
   });
