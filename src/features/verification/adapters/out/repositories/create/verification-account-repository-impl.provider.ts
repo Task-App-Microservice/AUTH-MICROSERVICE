@@ -1,25 +1,26 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { generateOTP } from "@eternaljs/otp-generator";
-import { DatabaseService } from "src/root/application/database/services/database.service";
 import { VerificationAccount } from "src/features/verification/domain/entities/verification-account.entity";
 import { CreateVerificationAccountRepository } from "src/features/verification/domain/repositories/create-varification-repository";
+import { DatabaseService } from "src/root/application/database/types/database";
+import { verificationAccountSchema } from "src/root/application/database/schemas/index.schema";
+import { DRIZZLE } from "src/root/application/database/database.module";
 
 @Injectable()
 export class CreateVerificationAccountRepositoryImpl implements CreateVerificationAccountRepository {
     constructor(
+        @Inject(DRIZZLE)
         private readonly databaseService: DatabaseService
     ) { }
 
     async save(identifier: string): Promise<VerificationAccount> {
         const code = generateOTP(6);
         const expires = this.generateExpirationDate()
-        return await this.databaseService.verificationAccount.create({
-            data:{
-                identifier,
-                code,
-                expires
-            } 
-        })
+        return await this.databaseService.insert(verificationAccountSchema).values({
+            identifier,
+            code,
+            expires
+        }).returning() as unknown as VerificationAccount;
     }
 
     generateExpirationDate(minutes: number = 5): Date {

@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   Param,
+  ParseUUIDPipe,
   UseInterceptors,
 } from '@nestjs/common';
 import { ReadUserImplService } from 'src/features/user/application/services/read/read-user-impl.service';
@@ -15,7 +16,7 @@ export class ReadUserController {
   @Get(":uuid")
   @UseInterceptors(GlobalResponseInterceptor)
   async getUser(
-    @Param("uuid", CuidValidationPipe) uuid: string
+    @Param("uuid", new ParseUUIDPipe({})) uuid: string
   ){
     return {user: await this.readUserService.findOneByUuid(uuid)};
   }
