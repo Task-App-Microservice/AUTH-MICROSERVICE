@@ -28,7 +28,6 @@
     "@nestjs/mapped-types": "^2.1.0",
     "@nestjs/microservices": "^11.0.12",
     "@nestjs/platform-express": "^11.0.1",
-    "@prisma/client": "^6.5.0",
     "@types/bcryptjs": "^3.0.0",
     "@types/pg": "^8.11.11",
     "amqp-connection-manager": "^4.1.14",
@@ -40,7 +39,6 @@
     "drizzle-kit": "^0.30.6",
     "drizzle-orm": "^0.41.0",
     "pg": "^8.14.1",
-    "prisma": "^6.5.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "tsx": "^4.19.3"
