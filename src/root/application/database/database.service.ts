@@ -5,7 +5,9 @@ import { DRIZZLE } from './database.module';
 
 @Injectable()
 export class DatabaseService {
-  constructor(@Inject(DRIZZLE) private readonly db: NodePgDatabase<typeof schema>) {}
+  constructor(
+    @Inject(DRIZZLE) private readonly db: NodePgDatabase<typeof schema>
+  ) {}
 
   getDatabase(): NodePgDatabase<typeof schema> {
     return this.db;
